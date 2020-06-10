@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import { Field } from './components/Field/Field';
 import './App.css';
 
-const FIRST_NOE_TEXT =
+const FIRST_NODE_TEXT =
   'Welcome to Sticky Notes — my test app on React\n\n' +
   'Features:\n\n' +
   '* Create new note with button in bottom right corner of the field\n\n' +
@@ -17,7 +17,7 @@ const defaultStore = {
   notes: {
     0: {
       id: 0,
-      text: FIRST_NOE_TEXT,
+      text: FIRST_NODE_TEXT,
       x: 0.15,
       y: 0.15,
       width: 0.40,
@@ -27,7 +27,29 @@ const defaultStore = {
 };
 
 function App() {
-  const [store, setStore] = useState(defaultStore);
+  const [store, setStore] = useState({ lastNoteId: -1, notes: {} });
+
+  useEffect(() => {
+    const localStore = localStorage.getItem('store');
+
+    if (localStore) {
+      setStore(JSON.parse(localStore));
+    } else {
+      setStore(defaultStore);
+    }
+
+    window.onstorage = event => {
+      if (event.key !== 'store') {
+        return;
+      }
+
+      setStore(JSON.parse(event.newValue));
+    };
+  }, [setStore]);
+
+  useEffect(() => {
+    localStorage.setItem('store', JSON.stringify(store));
+  }, [store]);
 
   const changeNote = useCallback((id, noteChanges) => {
     setStore({
