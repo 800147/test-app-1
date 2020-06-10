@@ -1,0 +1,52 @@
+.Field {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.Field-NewNote {
+  position: absolute;
+  background-color: white;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .25);
+  right: 20px;
+  bottom: 20px;
+  padding: 0;
+  z-index: 10001;
+}
+
+.Field-NewNoteImg {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+}
+
+.Field-DeleteNote {
+  background-color: rgba(255, 0, 0, .25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 10%;
+  height: 10%;
+  transform: translate(0, 100%);
+  transition: transform .5s;
+  z-index: 10001;
+}
+
+.Field-DeleteNoteImg {
+  position: relative;
+  left: -2px;
+}
+
+.Field_noteMoving .Field-DeleteNote {
+  transform: translate(0, 0);
+}
