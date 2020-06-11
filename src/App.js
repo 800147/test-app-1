@@ -30,6 +30,14 @@ const defaultStore = {
 function App() {
   const [store, setStore] = useState({ lastNoteId: -1, notes: {} });
 
+  const onStorage = useCallback(({ key, newValue }) => {
+    if (key !== 'store') {
+      return;
+    }
+
+    setStore(Object.assign(JSON.parse(newValue), { isSetFromLocalStorage: true }));
+  }, [setStore]);
+
   useEffect(() => {
     const localStore = localStorage.getItem('store');
 
@@ -39,17 +47,19 @@ function App() {
       setStore(defaultStore);
     }
 
-    window.onstorage = event => {
-      if (event.key !== 'store') {
-        return;
-      }
+    window.addEventListener('storage', onStorage);
 
-      setStore(JSON.parse(event.newValue));
-    };
-  }, [setStore]);
+    return () => window.removeEventListener('storage', onStorage);
+  }, [setStore, onStorage]);
 
   useEffect(() => {
-    localStorage.setItem('store', JSON.stringify(store));
+    const { isSetFromLocalStorage, ...forLocalStorage } = store;
+
+    if (isSetFromLocalStorage) {
+      return;
+    }
+
+    localStorage.setItem('store', JSON.stringify(forLocalStorage));
   }, [store]);
 
   const changeNote = useCallback((id, noteChanges) => {
@@ -58,7 +68,8 @@ function App() {
       notes: {
         ...store.notes,
         [id]: Object.assign({}, store.notes[id], noteChanges)
-      }
+      },
+      isSetFromLocalStorage: false
     });
   }, [store, setStore]);
 
@@ -75,14 +86,19 @@ function App() {
           height: 0.30
         }
       },
-      lastNoteId: store.lastNoteId + 1
+      lastNoteId: store.lastNoteId + 1,
+      isSetFromLocalStorage: false
     });
   }, [store, setStore]);
 
   const deleteNote = useCallback((id) => {
     const { [id]: deleted, ...newNotes } = store.notes;
 
-    setStore({ ...store, notes: newNotes });
+    setStore({
+      ...store,
+      notes: newNotes,
+      isSetFromLocalStorage: false
+    });
   }, [store, setStore]);
 
   return (

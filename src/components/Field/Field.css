@@ -43,6 +43,10 @@
 }
 
 .Field-DeleteNoteImg {
+  width: 70%;
+  height: 70%;
+  max-width: 40px;
+  max-height: 40px;
   position: relative;
   left: -2px;
 }
@@ -51,6 +55,6 @@
   transform: translate(0, 0);
 }
 
-.Field:not(.Field_action_none) *{
+.Field:not(.Field_action_none) {
   user-select: none;
 }

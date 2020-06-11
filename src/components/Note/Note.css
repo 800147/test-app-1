@@ -68,8 +68,8 @@
 
 .Note:not(.Note_action_none) .Note-Move,
 .Note:not(.Note_action_none) .Note-Resize,
-.Note:hover .Note-Move,
-.Note:hover .Note-Resize {
+.Field_action_none .Note:hover .Note-Move,
+.Field_action_none .Note:hover .Note-Resize {
     opacity: 1;
 }
 
