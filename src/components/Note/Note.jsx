@@ -10,6 +10,9 @@ export const Action = {
   RESIZE: 'resize'
 };
 
+const MIN_WIDTH = 0.1;
+const MIN_HEIGHT = 0.1;
+
 export const Note = ({
   className,
   note: {
@@ -46,8 +49,8 @@ export const Note = ({
 
     if (action === Action.RESIZE) {
       changeNote(id, {
-        width: (e.pageX - fieldX) / fieldWidth - mouseOffset.x,
-        height: (e.pageY - fieldY) / fieldHeight - mouseOffset.y
+        width: Math.max((e.pageX - fieldX) / fieldWidth - mouseOffset.x, MIN_WIDTH),
+        height: Math.max((e.pageY - fieldY) / fieldHeight - mouseOffset.y, MIN_HEIGHT)
       })
     }
   }, [mouseOffset, field, id, changeNote, action]);
