@@ -3,15 +3,16 @@ import React, { useRef, useState } from 'react';
 import { Note } from '../Note/Note';
 
 import './Field.css';
+import { Action } from '../Note/Note';
 import plusImg from './icon_plus.svg';
 import trashImg from './icon_trash_alt.svg';
 
 export const Field = ({ className, notes, changeNote, createNote, deleteNote }) => {
   const self = useRef();
-  const [noteMoving, setNoteMoving] = useState(false);
+  const [noteAction, setNoteAction] = useState(Action.NONE);
 
   return (
-    <div className={`Field ${noteMoving ? 'Field_noteMoving' : ''} ${className || ''}`} ref={self}>
+    <div className={`Field Field_action_${noteAction} ${className || ''}`} ref={self}>
       {
         notes.map((note) => (
           <Note
@@ -19,7 +20,7 @@ export const Field = ({ className, notes, changeNote, createNote, deleteNote }) 
             note={note}
             changeNote={changeNote}
             field={self}
-            setNoteMoving={setNoteMoving}
+            setNoteAction={setNoteAction}
             deleteNote={deleteNote}
           />
         ))

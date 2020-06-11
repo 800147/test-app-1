@@ -10,7 +10,8 @@ const FIRST_NODE_TEXT =
   '* Move note with grip in top right corner of the note (appears on hover)\n\n' +
   '* Resize note with grip in bottom right corner of the note (appears on hover)\n\n' +
   '* Delete note by moving it to bottom left corner of the field\n\n' +
-  '* Colors and z-indexes are set automatically';
+  '* Colors and z-indexes are set automatically\n\n' +
+  '* Notes are saved in browser using local storage';
 
 const defaultStore = {
   lastNoteId: 0,

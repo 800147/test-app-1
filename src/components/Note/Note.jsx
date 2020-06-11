@@ -4,7 +4,7 @@ import './Note.css';
 import moveImg from './arrow_move.svg';
 import resizeImg from './arrow_expand_alt2.svg';
 
-const Action = {
+export const Action = {
   NONE: 'none',
   MOVE: 'move',
   RESIZE: 'resize'
@@ -23,7 +23,7 @@ export const Note = ({
   changeNote,
   deleteNote,
   field,
-  setNoteMoving
+  setNoteAction
 }) => {
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
   const [action, setAction] = useState(Action.NONE);
@@ -61,7 +61,7 @@ export const Note = ({
     } = field.current.getBoundingClientRect();
 
     setAction(Action.NONE);
-    setNoteMoving(false);
+    setNoteAction(Action.NONE);
 
     if (
       (e.pageX - fieldX) / fieldWidth <= 0.1 &&
@@ -69,7 +69,7 @@ export const Note = ({
     ) {
       deleteNote(id);
     }
-  }, [setAction, setNoteMoving, id, field, deleteNote]);
+  }, [setAction, setNoteAction, id, field, deleteNote]);
 
   useEffect(() => {
     if (action === Action.NONE) {
@@ -101,8 +101,8 @@ export const Note = ({
     });
 
     setAction(Action.MOVE);
-    setNoteMoving(true);
-  }, [field, setMouseOffset, setAction, x, y, setNoteMoving]);
+    setNoteAction(Action.MOVE);
+  }, [field, setMouseOffset, setAction, x, y, setNoteAction]);
 
   const onResizeMouseDown = useCallback((e) => {
     const {
@@ -118,7 +118,8 @@ export const Note = ({
     });
 
     setAction(Action.RESIZE);
-  }, [field, setMouseOffset, setAction, width, height]);
+    setNoteAction(Action.RESIZE);
+  }, [field, setMouseOffset, setAction, width, height, setNoteAction]);
 
   const changeText = useCallback(({ currentTarget: { value } }) => {
     changeNote(id, { text: value });

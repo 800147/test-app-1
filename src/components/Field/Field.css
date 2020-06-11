@@ -47,6 +47,10 @@
   left: -2px;
 }
 
-.Field_noteMoving .Field-DeleteNote {
+.Field_action_move .Field-DeleteNote {
   transform: translate(0, 0);
+}
+
+.Field:not(.Field_action_none) *{
+  user-select: none;
 }
